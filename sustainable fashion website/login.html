@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Login</title>
+<style>
+body {
+    font-family: Arial, sans-serif;
+    background: #f0f0f0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+.container {
+    background: #fff;
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    width: 320px;
+}
+h1 { text-align: center; color: #333; }
+label { display: block; margin-top: 10px; color: #333; }
+input {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+button {
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    margin-top: 15px;
+    font-size: 16px;
+}
+button:hover { background-color: #0056b3; }
+.error {
+    color: red;
+    text-align: center;
+    margin-top: 10px;
+}
+</style>
+</head>
+<body>
+<div class="container">
+    <h1>Admin Login</h1>
+    <form id="loginForm">
+        <label>Username:</label>
+        <input type="text" id="username" required>
+        <label>Password:</label>
+        <input type="password" id="password" required>
+        <button type="submit">Login</button>
+    </form>
+    <div id="error" class="error"></div>
+</div>
+
+<script>
+document.getElementById("loginForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+
+    const username = document.getElementById("username").value.trim().toLowerCase();
+    const password = document.getElementById("password").value.trim();
+    const errorDiv = document.getElementById("error");
+
+    // Allowed admins only
+    const admins = [
+        { username: "aryan", password: "1234", role: "admin" },
+        { username: "harshad", password: "1234", role: "admin" }
+    ];
+
+    const admin = admins.find(acc => acc.username === username && acc.password === password);
+
+    if (admin) {
+        localStorage.setItem("loggedInUser", JSON.stringify(admin));
+        alert("Welcome " + admin.username + "! Redirecting to Admin Page...");
+        window.location.href = "admin.html";
+    } else {
+        errorDiv.innerText = "Access Denied! Only Aryan or Harshad can log in.";
+    }
+});
+</script>
+</body>
+</html>

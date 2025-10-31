@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Admin Dashboard - Sales Report</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+body {
+    font-family: Arial, sans-serif;
+    background-color: #eef1f5;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+}
+.container {
+    background: #fff;
+    display: inline-block;
+    padding: 30px 50px;
+    margin-top: 50px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+h1 {
+    color: #333;
+    margin-bottom: 10px;
+}
+h2 {
+    margin-top: 40px;
+    color: #007bff;
+}
+button {
+    background: #dc3545;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 15px;
+    margin-top: 20px;
+}
+button:hover {
+    background: #c82333;
+}
+canvas {
+    margin-top: 30px;
+    width: 100%;
+    max-width: 600px;
+    height: 400px;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+    <h1 id="welcomeText">Welcome Admin</h1>
+    <h2>📈 Website Sales Report</h2>
+    <canvas id="salesChart"></canvas>
+    <button onclick="logout()">Logout</button>
+</div>
+
+<script>
+// ======== ADMIN ACCESS CONTROL ==========
+const loggedIn = JSON.parse(localStorage.getItem("loggedInUser"));
+if (!loggedIn || (loggedIn.username.toLowerCase() !== "aryan" && loggedIn.username.toLowerCase() !== "harshad")) {
+    alert("Access denied! Admins only.");
+    window.location.href = "login.html";
+} else {
+    document.getElementById("welcomeText").innerText = `Welcome ${loggedIn.username.charAt(0).toUpperCase() + loggedIn.username.slice(1)}!`;
+}
+
+// ======== SALES DATA EXAMPLE ==========
+const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+const websiteSales = [500, 750, 900, 1200, 1500, 1700, 1900, 2200, 2500, 2800, 3000, 3500];
+const serviceSales = [300, 400, 600, 700, 900, 1100, 1300, 1400, 1700, 1800, 2100, 2400];
+const productSales = [200, 300, 450, 600, 800, 950, 1200, 1500, 1800, 1900, 2100, 2300];
+
+// ======== BAR CHART ==========
+const ctx = document.getElementById('salesChart');
+new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: months,
+        datasets: [
+            {
+                label: 'Website Sales (₹)',
+                data: websiteSales,
+                backgroundColor: 'rgba(54, 162, 235, 0.7)',
+            },
+            {
+                label: 'Service Sales (₹)',
+                data: serviceSales,
+                backgroundColor: 'rgba(255, 99, 132, 0.7)',
+            },
+            {
+                label: 'Product Sales (₹)',
+                data: productSales,
+                backgroundColor: 'rgba(75, 192, 192, 0.7)',
+            }
+        ]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            legend: {
+                position: 'top',
+            },
+            title: {
+                display: true,
+                text: 'Monthly Sales Comparison (2025)'
+            }
+        },
+        scales: {
+            y: {
+                beginAtZero: true,
+                title: {
+                    dis
